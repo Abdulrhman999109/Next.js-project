@@ -3,9 +3,14 @@ import React from 'react'
 
 
 async function getTikets(){
+    await new Promise ((resolve) => {
+        setTimeout(() => {
+            resolve();
+        },3000);
+    });
     const res = await fetch('http://localhost:4000/tickets',{
         next:{
-            revalidate:200
+            revalidate:10
         }
     }) 
     return res.json();

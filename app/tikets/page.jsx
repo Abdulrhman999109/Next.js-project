@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ListTikets from './ListTikets'
+import Link from 'next/link'
+import Loading from '../(dashboard)/loading'
 
 export default function Tikets() {
   return (
@@ -7,7 +9,13 @@ export default function Tikets() {
         <h2>
             Tikets
         </h2>
-        <ListTikets/>
+        <Suspense fallback={<Loading/>}>
+        <Link href="/tikets/createtiket">
+          <button className="btn-primary">Add Ticket</button>
+        </Link>
+          <ListTikets/>
+        </Suspense>
+        
     </main>
   )
 }
