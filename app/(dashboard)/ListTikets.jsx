@@ -10,10 +10,10 @@ async function getTikets(){
     });
     const res = await fetch('http://localhost:4000/tickets',{
         next:{
-            revalidate:10
+            revalidate:0
         }
     }) 
-    return res.json();
+    return res.json(); 
 }
 
 

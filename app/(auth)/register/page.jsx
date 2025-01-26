@@ -1,7 +1,16 @@
-import React from 'react'
+"use client"
 
-export default function Rigster() {
+import React from 'react'
+import AuthForm from '../AuthForm'
+
+export default function Rigster(){
+  const handleSubmit = async (e ,email , password)=>{
+    e.preventDefault()
+
+    console.log("use Sign up",email , password)}
   return (
-    <div>Rigestr</div>
+    <main>
+      <AuthForm handleSubmit={handleSubmit} />
+    </main>
   )
 }

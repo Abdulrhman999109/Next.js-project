@@ -1,7 +1,12 @@
 import React, { Suspense } from 'react'
-import ListTikets from './ListTikets'
+import ListTikets from '../ListTikets'
 import Link from 'next/link'
-import Loading from '../(dashboard)/loading'
+import Loading from '../loading'
+
+
+export const metadata = {
+  title: 'Dojo-Helpdesk | Tickets',
+}
 
 export default function Tikets() {
   return (
