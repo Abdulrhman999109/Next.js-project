@@ -1,19 +1,21 @@
-import React from 'react'
-import Link from 'next/link'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+
+// components
 import Navbar from '../components/Navbar'
+import { redirect } from 'next/navigation'
 
+export default async function DashboardLayout({ children }) {
+  const supabase = createServerComponentClient({ cookies })
+  const { data } = await supabase.auth.getSession()
 
-
-
-export default function layout({children}) {
-  return (
+  if(!data.session){
+    redirect('/login')
+  }
+  return (  
     <>
-        <nav>
-            <Navbar />
-            <Link href={"/"}>Dashboard</Link>
-            <Link href={"/tikets"}>Tikets</Link>
-        </nav>
-        {children}
+      <Navbar user={data.session.user} />
+      {children}
     </>
   )
 }
