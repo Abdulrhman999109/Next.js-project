@@ -1,30 +1,22 @@
-import React from 'react'
-import { NextResponse } from 'next/server'
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
+import { cookies } from "next/headers"
+import { NextResponse } from "next/server"
+
+export async function POST(request) {
+  const ticket = await request.json()
+
+  const supabase = createRouteHandlerClient({ cookies })
+
+  const { data: { session } } = await supabase.auth.getSession()
 
 
-    export async function GET() {
-
-    
-
-    const res = await fetch('http://localhost:4000/tickets')
-    const tickets = await res.json()
-
-
-    return NextResponse.json(tickets ,{
-        status:200
+  const { data, error } = await supabase.from('Tickets')
+    .insert({
+      ...ticket,
+      user_email: session.user.email,
     })
-    }
+    .select()
+    .single()
 
-
-    export async function POST(request) {
-        const ticket = await request.json();
-        const res = await fetch('http://localhost:4000/tickets', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(ticket),
-        });
-      
-        const NewTicket = await res.json();
-      
-        return NextResponse.json(NewTicket, { status: 201 });
-      }
+  return NextResponse.json({ data, error })
+}

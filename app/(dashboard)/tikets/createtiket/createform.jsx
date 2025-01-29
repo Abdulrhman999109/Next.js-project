@@ -1,39 +1,41 @@
 "use client"
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 export default function CreateForm() {
+  const router = useRouter()
 
-    const router = useRouter()
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState('')
+  const [priority, setPriority] = useState('low')
+  const [isLoading, setIsLoading] = useState(false)
 
-    const [title , setTitle] =useState('')
-    const [body , setBody] = useState('')
-    const [priority , setPriority] = useState('low')
-    const [isloading , setIsloading] = useState(false)
+  const handleSubmit = async (e)  => {
+    e.preventDefault()
+    setIsLoading(true)
 
-    const handelsubmit=(async(e)=>{
-        e.preventDefault()
-        setIsloading(true)
+    const newTicket = { title, body, priority}
 
-        const NewTiket = {title, body , priority , user_email: 'Abdulrhman@netninja.dev'}
-
-        const res = await fetch ('http://localhost:4000/tickets',{
-            method:'POST',
-            headers:{'Content-Type' : 'application/json'},
-            body: JSON.stringify(NewTiket)
-        })
-        if (res.status === 201) {
-            router.refresh()
-            router.push('/tikets')
-          }
+    const res = await fetch('http://localhost:3000/api/tickets', {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(newTicket)
     })
 
+    const json = await res.json()
 
+    if (json.error) {
+      console.log(json.error.message)
+    }
+    if (json.data) {
+      router.refresh()
+      router.push('/tikets')
+    }
+  }
 
   return (
-    
-    <form onSubmit={handelsubmit} className="w-1/2">
+    <form onSubmit={handleSubmit} className="w-1/2">
       <label>
         <span>Title:</span>
         <input
@@ -62,11 +64,13 @@ export default function CreateForm() {
           <option value="high">High Priority</option>
         </select>
       </label>
-      <button className='btn-primary'
-      disabled={isloading}>
-        {isloading && <span> add..</span>}
-        {!isloading && <span>Add Ticket</span>}
-      </button>
+      <button 
+        className="btn-primary" 
+        disabled={isLoading}
+      >
+      {isLoading && <span>Adding...</span>}
+      {!isLoading && <span>Add Ticket</span>}
+    </button>
     </form>
   )
 }
