@@ -1,11 +1,11 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import React from 'react'
 import { cookies } from 'next/headers';
 
 
 async function getTikets(){
-    const supabase = createClientComponentClient({cookies})
+    const supabase = createServerComponentClient({cookies})
     
     const {data , error} = await supabase.from ("Tickets")
         .select()
