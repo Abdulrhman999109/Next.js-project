@@ -4,6 +4,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import React, { useState } from 'react'
 import AuthForm from '../AuthForm'
 import { useRouter } from 'next/navigation'
+import { cookies } from 'next/headers';
 
 export default function Rigster(){
 
@@ -14,12 +15,12 @@ export default function Rigster(){
   const handleSubmit = async (e ,email , password)=>{
     e.preventDefault()
 
-  const supabase = createClientComponentClient()
+  const supabase = createClientComponentClient({cookies})
   const {error} = await supabase.auth.signUp({
     email,
     password,
     options:{
-      emailRedirectTo:`${location.origin}/api/auth/callback`
+      emailRedirectTo:`https://dojo-helpdesk-aqw2l7hox-abdulrhmanbalubaids-projects.vercel.app/api/auth/callback`
     }
   })
 
