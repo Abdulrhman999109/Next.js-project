@@ -19,7 +19,7 @@ export default function Rigster(){
     email,
     password,
     options:{
-      emailRedirectTo:`https://dojo-helpdesk-aqw2l7hox-abdulrhmanbalubaids-projects.vercel.app/api/auth/callback`
+      emailRedirectTo:`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`,
     }
   })
 
