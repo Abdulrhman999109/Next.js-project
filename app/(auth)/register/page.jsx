@@ -19,7 +19,7 @@ export default function Rigster(){
     email,
     password,
     options:{
-      emailRedirectTo:`${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`,
+      emailRedirectTo:`${location.origin}/api/auth/callback`,
     }
   })
 
